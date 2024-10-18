@@ -1,5 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:lumuzik/core/configs/theme/App_colors.dart';
+// import 'package:lumuzik/main.dart';
 
 class AppTheme {
-  static const ligthTheme = ThemeData(){}
+  static final lightTheme  = ThemeData(
+    primaryColor: AppColors.primary,
+    scaffoldBackgroundColor: AppColors.lightBackground,
+    brightness: Brightness.light,
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: AppColors.primary,
+        textStyle: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30))
+        ) 
+      )
+    );
+
+    static final darkTheme  = ThemeData(
+    primaryColor: AppColors.primary,
+    scaffoldBackgroundColor: AppColors.darkBackground,
+    brightness: Brightness.dark,
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: AppColors.primary,
+        textStyle: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30))
+        ) 
+      )
+    );
 }
