@@ -5,10 +5,10 @@ import 'package:lumuzik/core/configs/theme/App_colors.dart';
 class AppTheme {
   static final lightTheme  = ThemeData(
     primaryColor: AppColors.primary,
-    scaffoldBackgroundColor: AppColors.lightBackground,
+    scaffoldBackgroundColor: const Color.fromARGB(255, 231, 231, 231),
     brightness: Brightness.light,
     fontFamily: 'Satoshi',
-    elevatedButtonTheme: ElevatedButtonThemeData(
+    elevatedButtonTheme: ElevatedButtonThemeData(    
       style: ElevatedButton.styleFrom(
         backgroundColor: AppColors.primary,
         textStyle: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),

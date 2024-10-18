@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lumuzik/core/configs/theme/App_theme.dart';
+import 'package:lumuzik/presentation/splash/pages/splash.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,7 +15,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       // title: 'Flutter Demo',
       theme: AppTheme.lightTheme,
-      home:Container()
+      debugShowCheckedModeBanner: false,
+      home: const SpashPage()
     );
   }
 }

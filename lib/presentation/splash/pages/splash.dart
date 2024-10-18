@@ -1,17 +1,41 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:lumuzik/core/configs/assets/app_vectors.dart';
+import 'package:lumuzik/presentation/intro/pages/get_stated.dart';
 
-class SpashPage extends StatelessWidget {
+
+class SpashPage extends StatefulWidget {
   const SpashPage({super.key});
+
+  @override
+  State<SpashPage> createState() => _SpashPageState();
+}
+
+class _SpashPageState extends State<SpashPage> {
+  @override
+  void nitState(){
+    super.initState();
+
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Image.asset(
-          
-        ),
+        child: SvgPicture.asset(
+          AppVectors.logo
+        )
       ),
     );
+  }
+  Future<void> redirect() async{
+    await Future.delayed(const Duration(seconds: 2));
+    Navigator.pushReplacement(
+      context, 
+      MaterialPageRoute(
+        builder: (BuildContext context) => const GetStated()
+        )
+        );
   }
 }
