@@ -16,6 +16,7 @@ class _SpashPageState extends State<SpashPage> {
   @override
   void nitState(){
     super.initState();
+    redirect();
 
   }
 
