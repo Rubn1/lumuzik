@@ -14,7 +14,7 @@ class SpashPage extends StatefulWidget {
 
 class _SpashPageState extends State<SpashPage> {
   @override
-  void nitState(){
+  void initState(){
     super.initState();
     redirect();
 

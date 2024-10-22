@@ -51,6 +51,7 @@ class GetStated extends StatelessWidget {
                       color: AppColors.gray,
                       fontSize: 13
                     ),
+                    textAlign: TextAlign.center,
                   ),
                   SizedBox(height: 21,),
               ],
