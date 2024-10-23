@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:lumuzik/common/widgets/button/basic_app_button.dart';
 import 'package:lumuzik/core/configs/assets/app_images.dart';
 import 'package:lumuzik/core/configs/assets/app_vectors.dart';
 import 'package:lumuzik/core/configs/theme/App_colors.dart';
@@ -53,8 +54,16 @@ class GetStated extends StatelessWidget {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  SizedBox(height: 21,),
-              ],
+                  SizedBox(height: 20,),
+                  BasicAppButton(
+                  onPressed: (){
+
+                  },
+                  title: 'Get Started'
+                  ),
+                  SizedBox(height: 21,
+                  ),
+              ], 
             ),
           ),
           Container(
