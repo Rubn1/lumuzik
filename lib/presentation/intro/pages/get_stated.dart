@@ -4,6 +4,7 @@ import 'package:lumuzik/common/widgets/button/basic_app_button.dart';
 import 'package:lumuzik/core/configs/assets/app_images.dart';
 import 'package:lumuzik/core/configs/assets/app_vectors.dart';
 import 'package:lumuzik/core/configs/theme/App_colors.dart';
+import 'package:lumuzik/presentation/choose_mode.js/pages/choose_mode.dart';
 
 class GetStated extends StatelessWidget {
   const GetStated({super.key});
@@ -26,49 +27,62 @@ class GetStated extends StatelessWidget {
                 )
               )
             ),
-            child: Column(
-              children: [
-                Align(
-                  alignment: Alignment.topCenter,
-                  child: SvgPicture.asset(
-                    AppVectors.logo
-                  ),
-                ),
-                Spacer(),
-                  Text(
-                    'Enjoy Listening To music',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                      fontSize: 18
-                    ),
-                  ),
-                  SizedBox(height: 21,),
-
-                  Text(
-                    'lorem ipsum, lorem ipsum, lorem ipsum,lorem ipsum,lorem ipsum,lorem ipsum,lorem ipsum,lorem ipsum,lorem ipsum,lorem ipsum,lorem ipsum,lorem ipsum',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      color: AppColors.gray,
-                      fontSize: 13
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  SizedBox(height: 20,),
-                  BasicAppButton(
-                  onPressed: (){
-
-                  },
-                  title: 'Get Started'
-                  ),
-                  SizedBox(height: 21,
-                  ),
-              ], 
-            ),
           ),
           Container(
             color: Colors.black.withOpacity(0.15),
-          )
+          ),
+
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: 30,
+              horizontal: 30
+            ),
+            child: Column( 
+                children: [
+                  Align(
+                    alignment: Alignment.topCenter,
+                    child: SvgPicture.asset(
+                      AppVectors.logo
+                    ),
+                  ),
+                  Spacer(),
+                    Text(
+                      'Enjoy Listening To music',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        fontSize: 18
+                      ),
+                    ),
+                    SizedBox(height: 21,),
+            
+                    Text(
+                      'lorem ipsum, lorem ipsum, lorem ipsum,lorem ipsum,lorem ipsum,lorem ipsum,lorem ipsum,lorem ipsum,lorem ipsum,lorem ipsum,lorem ipsum,lorem ipsum',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.gray,
+                        fontSize: 13
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: 20,),
+                    BasicAppButton(
+                    onPressed: (){
+                      Navigator.push(
+                        context, 
+                        MaterialPageRoute(
+                          builder: (BuildContext context) => const ChooseModePage()
+                        )
+                      );
+            
+                    },
+                    title: 'Get Started'
+                    ),
+                    SizedBox(width: 30, height: 10,
+                    ),
+                ], 
+              ),
+          ),
         ],
       ),
     );
