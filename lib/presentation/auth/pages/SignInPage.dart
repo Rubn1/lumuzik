@@ -4,6 +4,7 @@ import 'package:lumuzik/common/widgets/appBar/appBar.dart';
 import 'package:lumuzik/common/widgets/button/basic_app_button.dart';
 import 'package:lumuzik/core/configs/assets/app_vectors.dart';
 import 'package:lumuzik/presentation/auth/pages/signup.dart';
+import 'package:lumuzik/presentation/auth/pages/HomePag.dart';
 
 class SignInPage extends StatelessWidget {
   const SignInPage({super.key});
@@ -39,7 +40,14 @@ class SignInPage extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: BasicAppButton(
-                  onPressed: (){},
+                  onPressed: (){
+                    Navigator.push(
+                  context, 
+                  MaterialPageRoute(
+                    builder: (BuildContext context)=> const MusicLibraryPage()
+                  )
+               );
+                  },
                   title: 'Sign In'
                 ),
               ),

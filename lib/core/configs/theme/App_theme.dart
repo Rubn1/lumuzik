@@ -10,7 +10,7 @@ class AppTheme {
     fontFamily: 'Satoshi',
     elevatedButtonTheme: ElevatedButtonThemeData(    
       style: ElevatedButton.styleFrom(
-        backgroundColor: AppColors.primary,
+        backgroundColor: const Color(0xFFFF8C00),
         textStyle: TextStyle(fontSize: 17,fontWeight: FontWeight.bold),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30))
