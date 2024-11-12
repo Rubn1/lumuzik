@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:lumuzik/presentation/auth/pages/MusicPlayerPage%20.dart';
-// import 'package:lumuzik/presentation/auth/pages/MusicPlayerPage.dart';
+import 'package:lumuzik/presentation/auth/pages/MiniPlayer.dart';
+import 'package:lumuzik/presentation/auth/pages/MusicPlayerPage .dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -19,6 +19,8 @@ class _MusicLibraryPageState extends State<MusicLibraryPage> {
   final AudioPlayer _audioPlayer = AudioPlayer();
   int _currentTabIndex = 0;
   bool _hasPermission = false;
+  bool _showMiniPlayer = false;
+  int _currentMusicIndex = 0;
 
   @override
   void initState() {
@@ -89,6 +91,22 @@ class _MusicLibraryPageState extends State<MusicLibraryPage> {
     await prefs.setStringList('musicFiles', musicFilePaths);
   }
 
+  void _openMusicPlayer(int index) {
+    setState(() {
+      _currentMusicIndex = index;
+      _showMiniPlayer = true;
+    });
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => MusicPlayerPage(
+          musicFilePaths: musicFilePaths,
+          initialIndex: index,
+        ),
+      ),
+    );
+  }
+
   Widget _buildMusicList() {
     if (musicFilePaths.isEmpty) {
       return Center(
@@ -125,15 +143,7 @@ class _MusicLibraryPageState extends State<MusicLibraryPage> {
           child: ListTile(
             title: Text(musicFile.path.split('/').last),
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => MusicPlayerPage(
-                    musicFilePaths: musicFilePaths,
-                    initialIndex: index,
-                  ),
-                ),
-              );
+              _openMusicPlayer(index);
             },
           ),
         );
@@ -153,29 +163,38 @@ class _MusicLibraryPageState extends State<MusicLibraryPage> {
           ),
         ],
       ),
-      body: _hasPermission 
-        ? Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  _buildTabButton('Chansons', 0),
-                  _buildTabButton('Playlists', 1),
-                  _buildTabButton('Artistes', 2),
-                  _buildTabButton('Albums', 3),
-                ],
+      body: _hasPermission
+          ? Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    _buildTabButton('Chansons', 0),
+                    _buildTabButton('Playlists', 1),
+                    _buildTabButton('Artistes', 2),
+                    _buildTabButton('Albums', 3),
+                  ],
+                ),
+                Expanded(
+                  child: _buildTabContent(),
+                ),
+                if (_showMiniPlayer)
+                  MiniPlayer(
+                    audioPlayer: _audioPlayer,
+                    musicFilePaths: musicFilePaths,
+                    currentIndex: _currentMusicIndex,
+                    onExpand: () {
+                      _openMusicPlayer(_currentMusicIndex);
+                    },
+                  ),
+              ],
+            )
+          : Center(
+              child: ElevatedButton(
+                child: const Text('Autoriser l\'accès aux fichiers'),
+                onPressed: _checkAndLoadMusicFiles,
               ),
-              Expanded(
-                child: _buildTabContent(),
-              ),
-            ],
-          )
-        : Center(
-            child: ElevatedButton(
-              child: const Text('Autoriser l\'accès aux fichiers'),
-              onPressed: _checkAndLoadMusicFiles,
             ),
-          ),
     );
   }
 

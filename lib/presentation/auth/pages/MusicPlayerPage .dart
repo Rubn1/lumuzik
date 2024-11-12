@@ -12,6 +12,8 @@ class MusicPlayerPage extends StatefulWidget {
     required this.initialIndex
   }) : super(key: key);
 
+  
+
   @override
   _MusicPlayerPageState createState() => _MusicPlayerPageState();
 }
@@ -91,25 +93,25 @@ class _MusicPlayerPageState extends State<MusicPlayerPage> {
     final String musicTitle = musicFile.path.split('/').last.replaceAll('.mp3', '');
 
     return Scaffold(
-      backgroundColor: Colors.black87,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        title: Text(
-          'Now Playing',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-        ),
-        centerTitle: true,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // Album Art Placeholder
-            Container(
-              width: 300,
-              height: 300,
+  backgroundColor: Colors.black87,
+  appBar: AppBar(
+    title: Text('Now Playing'),
+    leading: IconButton(
+      icon: Icon(Icons.arrow_back),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    ),
+  ),
+  body: Padding(
+    padding: const EdgeInsets.all(16.0),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        // Album Art Placeholder
+        Container(
+          width: 300,
+          height: 300,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
                 color: Colors.grey.shade800,
