@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "764644211759",
+    "project_id": "fir-lumuzik",
+    "storage_bucket": "fir-lumuzik.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:764644211759:android:dc6c6d4d738d9c90a5dada",
+        "android_client_info": {
+          "package_name": "com.example.lumuzik"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQ-7nFflJdD8AXEC9f6x_zrzfw78BJvHc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,128 +1,144 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:lumuzik/common/widgets/appBar/appBar.dart';
-import 'package:lumuzik/common/widgets/button/basic_app_button.dart';
-import 'package:lumuzik/core/configs/assets/app_vectors.dart';
+import 'package:lumuzik/presentation/auth/pages/AuthService.dart';
+import 'package:lumuzik/core/configs/theme/app_theme.dart';
+import 'package:lumuzik/core/configs/theme/App_colors.dart';
 import 'package:lumuzik/presentation/auth/pages/SignInPage.dart';
 
 class SignupPage extends StatelessWidget {
-  const SignupPage({super.key});
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController = TextEditingController();
+  final AuthService _authService = AuthService();
+
+  SignupPage({Key? key}) : super(key: key);
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    confirmPasswordController.dispose();
+  }
+
+  void _register(BuildContext context) async {
+    String email = emailController.text.trim();
+    String password = passwordController.text.trim();
+    String confirmPassword = confirmPasswordController.text.trim();
+
+    if (password != confirmPassword) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Passwords do not match")),
+      );
+      return;
+    }
+
+    var user = await _authService.registerWithEmailAndPassword(email, password);
+    if (user != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Verification email sent. Please check your inbox.")),
+      );
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => SignInPage()),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Registration failed. Please try again.")),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: _signText(context),
-      appBar: AppbarPage(
-        title: SvgPicture.asset(
-          AppVectors.logo,
-          height: 20,
-          width: 20,
-        ),
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: 50,
-            horizontal: 30
-          ),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(20.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _registerText(),
+              const SizedBox(height: 60),
+              IconButton(
+                icon: const Icon(Icons.arrow_back),
+                color: Theme.of(context).brightness == Brightness.light 
+                    ? Colors.black 
+                    : Colors.white,
+                onPressed: () => Navigator.pop(context),
+              ),
+              const SizedBox(height: 20),
+              Text('Create Account', style: AppTheme.headingStyle),
               const SizedBox(height: 40),
-              _buildTextField(context, 'Full Name'),
-              const SizedBox(height: 20),
-              _buildTextField(context, 'Your Email'),
-              const SizedBox(height: 20),
-              _buildTextField(context, 'Your Password', isPassword: true),
-              const SizedBox(height: 30),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: BasicAppButton(
-                  onPressed: (){},
-                  title: 'Create Account'
+              TextField(
+                controller: nameController,
+                decoration: const InputDecoration(
+                  labelText: 'Full Name',
+                  prefixIcon: Icon(Icons.person_outline),
                 ),
               ),
+              const SizedBox(height: 20),
+              TextField(
+                controller: emailController,
+                decoration: const InputDecoration(
+                  labelText: 'Email',
+                  prefixIcon: Icon(Icons.email_outlined),
+                ),
+              ),
+              const SizedBox(height: 20),
+              TextField(
+                controller: passwordController,
+                obscureText: true,
+                decoration: const InputDecoration(
+                  labelText: 'Password',
+                  prefixIcon: Icon(Icons.lock_outline),
+                ),
+              ),
+              const SizedBox(height: 20),
+              TextField(
+                controller: confirmPasswordController,
+                obscureText: true,
+                decoration: const InputDecoration(
+                  labelText: 'Confirm Password',
+                  prefixIcon: Icon(Icons.lock_outline),
+                ),
+              ),
+              const SizedBox(height: 40),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () => _register(context),
+                  child: const Text('SIGN UP'),
+                ),
+              ),
+              const SizedBox(height: 20),
+              Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Already have an account?',
+                      style: AppTheme.subheadingStyle,
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => SignInPage()),
+                        );
+                      },
+                      child: Text(
+                        'Sign in',
+                        style: TextStyle(color: AppTheme.lightTheme.primaryColor),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 20),
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _registerText(){
-    return const Text(
-      'Register',
-      style: TextStyle(
-        fontWeight: FontWeight.bold,
-        fontSize: 25,
-      ),
-      textAlign: TextAlign.center,
-    );
-  }
-
-  Widget _buildTextField(BuildContext context, String hintText, {bool isPassword = false}) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15),
-        color: Colors.transparent,
-        border: Border.all(
-          color: Colors.grey.withOpacity(0.3),
-          width: 1,
-        ),
-      ),
-      child: TextField(
-        obscureText: isPassword,
-        decoration: InputDecoration(
-          hintText: hintText,
-          border: InputBorder.none,
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: 20,
-            vertical: 15,
-          ),
-          hintStyle: TextStyle(
-            color: Colors.grey.withOpacity(0.7),
-            fontSize: 16,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _signText(BuildContext context){
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Text(
-            'Do you have an account?',
-            style: TextStyle(
-              fontWeight: FontWeight.w500,
-              fontSize: 14,
-            ),
-          ),
-          TextButton(
-            onPressed: (){
-              Navigator.pushReplacement(
-                context, 
-                  MaterialPageRoute(
-                    builder: (BuildContext context)=> const SignInPage()
-                  )
-              );
-            },
-            style: TextButton.styleFrom(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-            ),
-            child: const Text(
-              'Sign In',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 14,
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }

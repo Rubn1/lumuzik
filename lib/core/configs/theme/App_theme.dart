@@ -1,58 +1,91 @@
 import 'package:flutter/material.dart';
-import 'package:lumuzik/core/configs/theme/App_colors.dart';
-// import 'package:lumuzik/main.dart';
+import 'package:lumuzik/core/configs/theme/app_colors.dart';
 
 class AppTheme {
-  static final lightTheme  = ThemeData(
+  // Styles communs
+  static final TextStyle headingStyle = TextStyle(
+    fontSize: 28,
+    fontWeight: FontWeight.bold,
+    color: Colors.black,
+    fontFamily: 'Satoshi',
+  );
+
+  static final TextStyle inputLabelStyle = TextStyle(
+    fontSize: 16,
+    color: Colors.grey[700],
+    fontFamily: 'Satoshi',
+  );
+
+  static final TextStyle buttonTextStyle = TextStyle(
+    fontSize: 17,
+    fontWeight: FontWeight.bold,
+    color: Colors.white,
+    fontFamily: 'Satoshi',
+  );
+
+  static final TextStyle subheadingStyle = TextStyle(
+    fontSize: 14,
+    color: Colors.grey[600],
+    fontFamily: 'Satoshi',
+  );
+
+  static final InputDecorationTheme inputDecorationTheme = InputDecorationTheme(
+    filled: true,
+    fillColor: Colors.white,
+    labelStyle: inputLabelStyle,
+    contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(10),
+      borderSide: BorderSide(color: Colors.grey[300]!),
+    ),
+    enabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(10),
+      borderSide: BorderSide(color: Colors.grey[300]!),
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(10),
+      borderSide: BorderSide(color: AppColors.primary),
+    ),
+  );
+
+  static final lightTheme = ThemeData(
     primaryColor: AppColors.primary,
-    scaffoldBackgroundColor: const Color.fromARGB(255, 2, 2, 2),
+    scaffoldBackgroundColor: Colors.white,
     brightness: Brightness.light,
     fontFamily: 'Satoshi',
-    elevatedButtonTheme: ElevatedButtonThemeData(    
+    inputDecorationTheme: inputDecorationTheme,
+    elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        backgroundColor: const Color(0xFFFF8C00),
-        textStyle: TextStyle(fontSize: 17,fontWeight: FontWeight.bold),
+        backgroundColor: AppColors.primary,
+        foregroundColor: Colors.white,
+        textStyle: buttonTextStyle,
+        padding: const EdgeInsets.symmetric(vertical: 15),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30))
-        ) 
-      )
-    );
+          borderRadius: BorderRadius.circular(10),
+        ),
+      ),
+    ),
+  );
 
-    static final darkTheme  = ThemeData(
+  static final darkTheme = ThemeData(
     primaryColor: AppColors.primary,
     scaffoldBackgroundColor: AppColors.darkBackground,
     brightness: Brightness.dark,
     fontFamily: 'Satoshi',
-    inputDecorationTheme: InputDecorationTheme(
-        filled: true,
-        fillColor: const Color.fromARGB(0, 255, 123, 0),
-        hintStyle: TextStyle(
-          color: const Color.fromARGB(255, 231, 190, 41),
-          fontWeight: FontWeight.w500,
-        ),
-        contentPadding: const EdgeInsets.all(30),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30),
-          borderSide: const BorderSide(
-            color: Colors.white,
-            width: 0.4
-          )
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30),
-          borderSide: const BorderSide(
-            color: Colors.white,
-            width: 0.4
-          )
-        )
-      ),
+    inputDecorationTheme: inputDecorationTheme.copyWith(
+      fillColor: AppColors.darkGey,
+      labelStyle: inputLabelStyle.copyWith(color: Colors.white70),
+    ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         backgroundColor: AppColors.primary,
-        textStyle: TextStyle(fontSize: 17,fontWeight: FontWeight.bold),
+        foregroundColor: Colors.white,
+        textStyle: buttonTextStyle,
+        padding: const EdgeInsets.symmetric(vertical: 15),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30))
-        ) 
-      )
-    );
+          borderRadius: BorderRadius.circular(10),
+        ),
+      ),
+    ),
+  );
 }
