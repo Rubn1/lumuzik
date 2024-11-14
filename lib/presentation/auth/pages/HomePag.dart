@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:lumuzik/presentation/auth/pages/MiniPlayer.dart';
 import 'package:lumuzik/presentation/auth/pages/MusicPlayerPage .dart';
+import 'package:lumuzik/presentation/auth/pages/SearchPage.dart';
 import 'package:lumuzik/presentation/auth/pages/playlistPage.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:file_picker/file_picker.dart';
@@ -296,14 +297,30 @@ class _MusicLibraryPageState extends State<MusicLibraryPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Lumuzik'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: _addMusicFiles,
+  title: const Text('Lumuzik'),
+  actions: [
+    IconButton(
+      icon: const Icon(Icons.search),
+      onPressed: () async {
+        final selectedIndex = await Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => SearchPage(
+              musicFilePaths: musicFilePaths,
+            ),
           ),
-        ],
-      ),
+        );
+        if (selectedIndex != null) {
+          _openMusicPlayer(selectedIndex);
+        }
+      },
+    ),
+    IconButton(
+      icon: const Icon(Icons.add),
+      onPressed: _addMusicFiles,
+    ),
+  ],
+),
       body: _hasPermission
           ? Column(
               children: [

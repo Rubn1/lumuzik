@@ -4,11 +4,34 @@ import 'package:lumuzik/core/configs/theme/app_theme.dart';
 import 'package:lumuzik/core/configs/theme/app_colors.dart';
 import 'package:lumuzik/presentation/auth/pages/HomePag.dart';
 import 'package:lumuzik/presentation/auth/pages/signup.dart';
+// import 'package:shared_preferences.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignInPage extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final AuthService _authService = AuthService();
+
+  // Clé pour SharedPreferences
+  static const String userLoggedInKey = 'isUserLoggedIn';
+
+  // Méthode pour vérifier si l'utilisateur est déjà connecté
+  static Future<bool> isUserLoggedIn() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(userLoggedInKey) ?? false;
+  }
+
+  // Méthode pour marquer l'utilisateur comme connecté
+  static Future<void> setUserLoggedIn() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(userLoggedInKey, true);
+  }
+
+  // Méthode pour marquer l'utilisateur comme déconnecté
+  static Future<void> setUserLoggedOut() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(userLoggedInKey, false);
+  }
 
   void _login(BuildContext context) async {
     String email = emailController.text.trim();
@@ -18,22 +41,21 @@ class SignInPage extends StatelessWidget {
 
     if (user != null) {
       if (user.emailVerified) {
-        // User is verified, navigate to the home page
+        // Marquer l'utilisateur comme connecté
+        await setUserLoggedIn();
+        // Naviguer vers la page d'accueil
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => const MusicLibraryPage()),
         );
       } else {
-        // User is not verified, show a snackbar and send a verification email
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("Please verify your email to continue.")),
         );
         await _authService.sendEmailVerification();
-        // Navigate to the sign-in page after email verification
         Navigator.pushReplacementNamed(context, '/SignInPage');
       }
     } else {
-      // Login failed, show an error snackbar
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Login failed. Please check your credentials.")),
       );
@@ -42,6 +64,16 @@ class SignInPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Vérifier l'état de connexion au chargement de la page
+    Future.delayed(Duration.zero, () async {
+      if (await isUserLoggedIn()) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const MusicLibraryPage()),
+        );
+      }
+    });
+
     final brightness = Theme.of(context).brightness;
     final backgroundColor = brightness == Brightness.light 
         ? Colors.white 
@@ -110,10 +142,9 @@ class SignInPage extends StatelessWidget {
                   TextButton(
                     onPressed: () {
                       Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => SignupPage()),
-                   );
-                      
+                        context,
+                        MaterialPageRoute(builder: (context) => SignupPage()),
+                      );
                     },
                     child: Text(
                       'Sign up',

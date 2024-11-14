@@ -1,24 +1,28 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:lumuzik/core/configs/assets/app_vectors.dart';
-// import 'package:lumuzik/core/configs/assets/app_images.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:lumuzik/presentation/intro/pages/get_stated.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:lumuzik/core/configs/assets/app_vectors.dart';
+// import 'package:lumuzik/presentation/intro/pages/get_started.dart';
+import 'package:lumuzik/presentation/auth/pages/SignInPage.dart';
+import 'package:lumuzik/presentation/auth/pages/HomePag.dart';
 
-
-class SpashPage extends StatefulWidget {
-  const SpashPage({super.key});
+class SplashPage extends StatefulWidget {
+  const SplashPage({super.key});
 
   @override
-  State<SpashPage> createState() => _SpashPageState();
+  State<SplashPage> createState() => _SplashPageState();
 }
 
-class _SpashPageState extends State<SpashPage> {
+class _SplashPageState extends State<SplashPage> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  static const String userLoggedInKey = 'isUserLoggedIn';
+
   @override
-  void initState(){
+  void initState() {
     super.initState();
     redirect();
-
   }
 
   @override
@@ -26,19 +30,37 @@ class _SpashPageState extends State<SpashPage> {
     return Scaffold(
       body: Center(
         child: SvgPicture.asset(
-          AppVectors.logo
-          // AppImages.monlogo
-        )
+          AppVectors.logo,
+        ),
       ),
     );
   }
-  Future<void> redirect() async{
-    await Future.delayed(const Duration(seconds: 3));
+
+  Future<void> redirect() async {
+    // Attendre 2 secondes pour afficher le splash screen
+    await Future.delayed(const Duration(seconds: 2));
+
+    if (!mounted) return;
+
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool hasSeenIntro = prefs.getBool('hasSeenIntro') ?? false;
+    bool isLoggedIn = prefs.getBool(userLoggedInKey) ?? false;
+    User? currentUser = _auth.currentUser;
+
+    Widget nextPage;
+    if (!hasSeenIntro) {
+      nextPage = const GetStarted();
+    } else if (currentUser != null && isLoggedIn && currentUser.emailVerified) {
+      nextPage = const MusicLibraryPage();
+    } else {
+      nextPage = SignInPage();
+    }
+
     Navigator.pushReplacement(
-      context, 
+      context,
       MaterialPageRoute(
-        builder: (BuildContext context) => const GetStated()
-        )
-        );
+        builder: (BuildContext context) => nextPage,
+      ),
+    );
   }
 }
