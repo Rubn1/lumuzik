@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:lumuzik/core/configs/assets/app_vectors.dart';
+// import 'package:lumuzik/core/configs/assets/app_images.dart';
 import 'package:lumuzik/presentation/intro/pages/get_stated.dart';
 
 
@@ -26,6 +27,7 @@ class _SpashPageState extends State<SpashPage> {
       body: Center(
         child: SvgPicture.asset(
           AppVectors.logo
+          // AppImages.monlogo
         )
       ),
     );

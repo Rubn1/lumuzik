@@ -134,7 +134,6 @@ class ChooseModePage extends StatelessWidget {
                           builder: (BuildContext context) => const SignupOrSigninPage()
                         )
                       );
-            
                     },
                     title: 'Continue'
                     ),
