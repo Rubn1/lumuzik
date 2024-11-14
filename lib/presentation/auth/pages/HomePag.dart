@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:lumuzik/presentation/auth/pages/MiniPlayer.dart';
 import 'package:lumuzik/presentation/auth/pages/MusicPlayerPage .dart';
+import 'package:lumuzik/presentation/auth/pages/ProfilePage.dart';
 import 'package:lumuzik/presentation/auth/pages/SearchPage.dart';
 import 'package:lumuzik/presentation/auth/pages/playlistPage.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -296,7 +297,7 @@ class _MusicLibraryPageState extends State<MusicLibraryPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+  appBar: AppBar(
   title: const Text('Lumuzik'),
   actions: [
     IconButton(
@@ -318,6 +319,19 @@ class _MusicLibraryPageState extends State<MusicLibraryPage> {
     IconButton(
       icon: const Icon(Icons.add),
       onPressed: _addMusicFiles,
+    ),
+    IconButton(
+      icon: const Icon(Icons.person),
+      onPressed: () {
+        // Add your profile or login functionality here
+        // For example, you could navigate to a ProfilePage or LoginPage
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ProfilePage(),
+          ),
+        );
+      },
     ),
   ],
 ),
@@ -386,5 +400,7 @@ class Playlist {
       musicPaths: List<String>.from(json['musicPaths']),
     );
   }
+
+  
   
 }
