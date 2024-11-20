@@ -19,7 +19,6 @@ class MiniPlayer extends StatefulWidget {
   @override
   _MiniPlayerState createState() => _MiniPlayerState();
 }
-
 class _MiniPlayerState extends State<MiniPlayer> {
   bool _isPlaying = false;
   Duration _position = Duration.zero;
@@ -56,7 +55,6 @@ class _MiniPlayerState extends State<MiniPlayer> {
       }
     });
   }
-
   String _getFileName() {
     final file = File(widget.musicFilePaths[widget.currentIndex]);
     return file.path.split('/').last.replaceAll('.mp3', '');
