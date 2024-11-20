@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lumuzik/presentation/auth/pages/AuthService.dart';
 import 'package:lumuzik/core/configs/theme/app_theme.dart';
-import 'package:lumuzik/core/configs/theme/App_colors.dart';
+// import 'package:lumuzik/core/configs/theme/App_colors.dart';
 import 'package:lumuzik/presentation/auth/pages/SignInPage.dart';
 
 class SignupPage extends StatelessWidget {

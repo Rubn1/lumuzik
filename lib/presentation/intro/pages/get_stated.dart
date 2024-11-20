@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+// import 'package:flutter_svg/svg.dart';
 // import 'package:shared_preferences.dart';
 import 'package:lumuzik/common/widgets/button/basic_app_button.dart';
 import 'package:lumuzik/core/configs/assets/app_images.dart';
-import 'package:lumuzik/core/configs/assets/app_vectors.dart';
+// import 'package:lumuzik/core/configs/assets/app_vectors.dart';
 import 'package:lumuzik/core/configs/theme/App_colors.dart';
 import 'package:lumuzik/presentation/choose_mode.js/pages/choose_mode.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -48,8 +48,10 @@ class GetStarted extends StatelessWidget {
               children: [
                 Align(
                   alignment: Alignment.topCenter,
-                  child: SvgPicture.asset(
-                    AppVectors.logo
+                  child: Image.asset(
+                    AppImages.splash3,
+                    width: 200,
+                    height: 200,
                   ),
                 ),
                 const Spacer(),

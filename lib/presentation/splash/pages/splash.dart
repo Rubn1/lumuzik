@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+// import 'package:flutter_svg/svg.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:lumuzik/presentation/intro/pages/get_stated.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:lumuzik/core/configs/assets/app_vectors.dart';
+// import 'package:lumuzik/core/configs/assets/app_vectors.dart';
 // import 'package:lumuzik/presentation/intro/pages/get_started.dart';
 import 'package:lumuzik/presentation/auth/pages/SignInPage.dart';
 import 'package:lumuzik/presentation/auth/pages/HomePag.dart';
+import 'package:lumuzik/core/configs/assets/app_images.dart/';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
-
   @override
   State<SplashPage> createState() => _SplashPageState();
 }
@@ -29,15 +29,17 @@ class _SplashPageState extends State<SplashPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: SvgPicture.asset(
-          AppVectors.logo,
+        child: Image.asset(
+          AppImages.splash3,
+          // You can add width and height if needed
+          width: 300, // adjust as needed
+          height: 300, // adjust as needed
         ),
       ),
     );
   }
 
   Future<void> redirect() async {
-    // Attendre 2 secondes pour afficher le splash screen
     await Future.delayed(const Duration(seconds: 2));
 
     if (!mounted) return;
