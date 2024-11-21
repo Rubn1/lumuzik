@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lumuzik/presentation/auth/pages/SignInPage.dart';
 
 
 class ProfilePage extends StatefulWidget {
@@ -91,6 +92,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
               onPressed: () {
+
                 // Add your profile update functionality here
               },
               child: const Text(
@@ -104,6 +106,12 @@ class _ProfilePageState extends State<ProfilePage> {
             const SizedBox(height: 16.0),
             TextButton(
               onPressed: () {
+                Navigator.push(
+                            context, 
+                            MaterialPageRoute(
+                              builder: (BuildContext context)=> SignInPage()
+                            )
+                          );
                 // Add your logout functionality here
               },
               child: Text(

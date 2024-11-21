@@ -8,6 +8,7 @@ import 'package:lumuzik/presentation/auth/pages/ProfilePage.dart';
 import 'package:lumuzik/presentation/auth/pages/SearchPage.dart';
 import 'package:lumuzik/presentation/auth/pages/player_provider.dart';
 import 'package:lumuzik/presentation/auth/pages/playlistPage.dart';
+import 'package:lumuzik/presentation/auth/pages/statistics.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:provider/provider.dart';
@@ -186,76 +187,86 @@ class _MusicLibraryPageState extends State<MusicLibraryPage> {
 
 
   Widget _buildMusicList() {
-    if (musicFilePaths.isEmpty) {
-      return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text('Aucun fichier musical trouvé.'),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _addMusicFiles,
-              child: const Text('Ajouter des fichiers musicaux'),
-            )
-          ],
-        ),
-      );
-    }
-
-    return Stack(
-      children: [
-        ListView.builder(
-          itemCount: musicFilePaths.length,
-          itemBuilder: (context, index) {
-            final File musicFile = File(musicFilePaths[index]);
-            final bool isSelected = selectedMusicPaths.contains(musicFilePaths[index]);
-            
-            return Dismissible(
-              key: Key(musicFilePaths[index]),
-              background: Container(
-                color: Colors.red,
-                child: const Icon(Icons.delete, color: Colors.white),
-              ),
-              onDismissed: (direction) {
-                _removeMusic(index);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('${musicFile.path.split('/').last} supprimé')),
-                );
-              },
-              child: ListTile(
-                leading: isSelectionMode 
-                  ? Checkbox(
-                      value: isSelected,
-                      onChanged: (_) => _toggleMusicSelection(musicFilePaths[index]),
-                    )
-                  : const Icon(Icons.music_note),
-                title: Text(musicFile.path.split('/').last),
-                onTap: isSelectionMode
-                  ? () => _toggleMusicSelection(musicFilePaths[index])
-                  : () => _openMusicPlayer(index),
-                onLongPress: () {
-                  setState(() {
-                    isSelectionMode = true;
-                    selectedMusicPaths.add(musicFilePaths[index]);
-                  });
-                },
-              ),
-            );
-          },
-        ),
-        if (isSelectionMode)
-          Positioned(
-            bottom: 16,
-            right: 16,
-            child: FloatingActionButton.extended(
-              onPressed: _createPlaylist,
-              label: const Text('Créer une playlist'),
-              icon: const Icon(Icons.playlist_add),
-            ),
-          ),
-      ],
+  if (musicFilePaths.isEmpty) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Text('Aucun fichier musical trouvé.'),
+          const SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: _addMusicFiles,
+            child: const Text('Ajouter des fichiers musicaux'),
+          )
+        ],
+      ),
     );
   }
+
+  return Stack(
+    children: [
+      ListView.builder(
+        itemCount: musicFilePaths.length,
+        itemBuilder: (context, index) {
+          final File musicFile = File(musicFilePaths[index]);
+          final bool isSelected = selectedMusicPaths.contains(musicFilePaths[index]);
+          
+          // Get the current player provider to check if this is the current song
+          final playerProvider = Provider.of<PlayerProvider>(context);
+          final bool isCurrentSong = playerProvider.currentSongPath == musicFilePaths[index];
+          
+          return Dismissible(
+            key: Key(musicFilePaths[index]),
+            background: Container(
+              color: Colors.red,
+              child: const Icon(Icons.delete, color: Colors.white),
+            ),
+            onDismissed: (direction) {
+              _removeMusic(index);
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('${musicFile.path.split('/').last} supprimé')),
+              );
+            },
+            child: ListTile(
+              leading: isSelectionMode 
+                ? Checkbox(
+                    value: isSelected,
+                    onChanged: (_) => _toggleMusicSelection(musicFilePaths[index]),
+                  )
+                : const Icon(Icons.music_note),
+              title: Text(
+                musicFile.path.split('/').last,
+                style: TextStyle(
+                  color: isCurrentSong ? Colors.blue : const Color.fromARGB(255, 221, 219, 219), // Highlight current song
+                  fontWeight: isCurrentSong ? FontWeight.bold : FontWeight.normal,
+                ),
+              ),
+              onTap: isSelectionMode
+                ? () => _toggleMusicSelection(musicFilePaths[index])
+                : () => _openMusicPlayer(index),
+              onLongPress: () {
+                setState(() {
+                  isSelectionMode = true;
+                  selectedMusicPaths.add(musicFilePaths[index]);
+                });
+              },
+            ),
+          );
+        },
+      ),
+      if (isSelectionMode)
+        Positioned(
+          bottom: 16,
+          right: 16,
+          child: FloatingActionButton.extended(
+            onPressed: _createPlaylist,
+            label: const Text('Créer une playlist'),
+            icon: const Icon(Icons.playlist_add),
+          ),
+        ),
+    ],
+  );
+}
 
   Widget _buildTabButton(String title, int index) {
     return TextButton(
@@ -291,9 +302,7 @@ class _MusicLibraryPageState extends State<MusicLibraryPage> {
 }
 
   Widget _buildArtistsView() {
-    return const Center(
-      child: Text('Aucun artiste trouvé'),
-    );
+    return const StatisticsPage();
   }
 
   Widget _buildAlbumsView() {
@@ -351,7 +360,7 @@ class _MusicLibraryPageState extends State<MusicLibraryPage> {
                   children: [
                     _buildTabButton('Chansons', 0),
                     _buildTabButton('Playlists', 1),
-                    _buildTabButton('Artistes', 2),
+                    _buildTabButton('Statistiques', 2),
                     _buildTabButton('Albums', 3),
                   ],
                 ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:lumuzik/presentation/auth/pages/statistics.dart';
 
 class PlayerProvider extends ChangeNotifier {
   final AudioPlayer _audioPlayer = AudioPlayer();
@@ -27,6 +28,10 @@ class PlayerProvider extends ChangeNotifier {
   void _initAudioPlayer() {
     _audioPlayer.playerStateStream.listen((state) {
       _isPlaying = state.playing;
+      
+      if(state.processingState == ProcessingState.completed) {
+        _updateStatistics();
+      }
       notifyListeners();
     });
 
@@ -94,12 +99,14 @@ class PlayerProvider extends ChangeNotifier {
   }
 
   void playNext() {
+    _updateStatistics();
     if (_currentIndex < _playlistPaths.length - 1) {
       _audioPlayer.seekToNext();
     }
   }
 
   void playPrevious() {
+    _updateStatistics();
     if (_currentIndex > 0) {
       _audioPlayer.seekToPrevious();
     }
@@ -115,4 +122,20 @@ class PlayerProvider extends ChangeNotifier {
     _audioPlayer.playing ? _audioPlayer.pause() : _audioPlayer.play();
   }
   
+  Future<void> _updateStatistics() async{
+  if (currentSongPath != null && _duration != Duration.zero) {
+    if(position > const Duration(seconds: 10)) {
+      await StatisticsProvider.recordListeningEvent(
+        currentSongPath!,
+        position
+      );
+      
+    }
+    StatisticsProvider.recordListeningEvent(
+      currentSongPath!, 
+      // Use the total time the song was played
+      position 
+    );
+  }
+}
 }
