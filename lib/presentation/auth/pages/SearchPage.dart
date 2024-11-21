@@ -5,9 +5,9 @@ class SearchPage extends StatefulWidget {
   final List<String> musicFilePaths;
 
   const SearchPage({
-    Key? key,
+    super.key,
     required this.musicFilePaths,
-  }) : super(key: key);
+  });
 
   @override
   _SearchPageState createState() => _SearchPageState();
@@ -16,7 +16,7 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   final TextEditingController _searchController = TextEditingController();
   List<String> _searchResults = [];
-  bool _isSearching = false;
+  final bool _isSearching = false;
 
   void _performSearch(String query) {
     if (query.isEmpty) {

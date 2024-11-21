@@ -7,6 +7,8 @@ class PlayerProvider extends ChangeNotifier {
   Duration _duration = Duration.zero;
   Duration _position = Duration.zero;
   String? _currentSongPath;
+  List<String> _playlistPaths = [];
+  int _currentIndex = 0;
   bool _showMiniPlayer = false;
 
   AudioPlayer get audioPlayer => _audioPlayer;
@@ -15,6 +17,8 @@ class PlayerProvider extends ChangeNotifier {
   Duration get position => _position;
   String? get currentSongPath => _currentSongPath;
   bool get showMiniPlayer => _showMiniPlayer;
+  List<String> get playlistPaths => _playlistPaths;
+  int get currentIndex => _currentIndex;
 
   PlayerProvider() {
     _initAudioPlayer();
@@ -35,26 +39,53 @@ class PlayerProvider extends ChangeNotifier {
       _duration = dur ?? Duration.zero;
       notifyListeners();
     });
+
+    _audioPlayer.sequenceStateStream.listen((sequenceState) {
+      if (sequenceState != null) {
+        _currentIndex = sequenceState.currentIndex;
+        _currentSongPath = _playlistPaths[_currentIndex];
+        notifyListeners();
+      }
+    });
   }
 
-  Future<void> playFile(String filePath, {bool showMini = true}) async {
-    _currentSongPath = filePath;
-    _showMiniPlayer = showMini;
-    await _audioPlayer.setFilePath(filePath);
+  Future<void> setPlaylist(List<String> paths, {int initialIndex = 0}) async {
+    _playlistPaths = paths;
+    _currentIndex = initialIndex;
+
+    final playlist = ConcatenatingAudioSource(
+      children: paths.map((path) => AudioSource.uri(Uri.file(path))).toList(),
+    );
+
+    await _audioPlayer.setAudioSource(playlist, initialIndex: initialIndex);
+    _currentSongPath = paths[initialIndex];
+    _showMiniPlayer = true;
     await _audioPlayer.play();
     notifyListeners();
   }
 
-  void togglePlay() async {
-    if (_isPlaying) {
-      await _audioPlayer.pause();
+  Future<void> playFile(String filePath, {bool showMini = true, List<String>? playlist}) async {
+    if (playlist != null) {
+      await setPlaylist(playlist, initialIndex: playlist.indexOf(filePath));
     } else {
+      _currentSongPath = filePath;
+      await _audioPlayer.setFilePath(filePath);
       await _audioPlayer.play();
+    }
+    _showMiniPlayer = showMini;
+    notifyListeners();
+  }
+
+  void togglePlay() {
+    if (_isPlaying) {
+      _audioPlayer.pause();
+    } else {
+      _audioPlayer.play();
     }
   }
 
-  void seek(Duration position) async {
-    await _audioPlayer.seek(position);
+  void seek(Duration position) {
+    _audioPlayer.seek(position);
   }
 
   void toggleMiniPlayer(bool show) {
@@ -62,9 +93,26 @@ class PlayerProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void playNext() {
+    if (_currentIndex < _playlistPaths.length - 1) {
+      _audioPlayer.seekToNext();
+    }
+  }
+
+  void playPrevious() {
+    if (_currentIndex > 0) {
+      _audioPlayer.seekToPrevious();
+    }
+  }
+
   @override
   void dispose() {
     _audioPlayer.dispose();
     super.dispose();
   }
+
+  void pauseOrContinue() {
+    _audioPlayer.playing ? _audioPlayer.pause() : _audioPlayer.play();
+  }
+  
 }

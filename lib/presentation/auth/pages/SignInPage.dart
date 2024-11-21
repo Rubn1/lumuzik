@@ -15,6 +15,8 @@ class SignInPage extends StatelessWidget {
   // Clé pour SharedPreferences
   static const String userLoggedInKey = 'isUserLoggedIn';
 
+  SignInPage({super.key});
+
   // Méthode pour vérifier si l'utilisateur est déjà connecté
   static Future<bool> isUserLoggedIn() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -119,7 +121,7 @@ class SignInPage extends StatelessWidget {
                       : Colors.grey[400]
                 ),
                 suffixText: 'FORGOT',
-                suffixStyle: TextStyle(color: AppColors.primary),
+                suffixStyle: const TextStyle(color: AppColors.primary),
               ),
             ),
             const SizedBox(height: 40),
@@ -146,7 +148,7 @@ class SignInPage extends StatelessWidget {
                         MaterialPageRoute(builder: (context) => SignupPage()),
                       );
                     },
-                    child: Text(
+                    child: const Text(
                       'Sign up',
                       style: TextStyle(color: AppColors.primary)
                     ),

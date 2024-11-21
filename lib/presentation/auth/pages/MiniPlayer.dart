@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:lumuzik/presentation/auth/pages/player_provider.dart';
+import 'package:provider/provider.dart';
 
 class MiniPlayer extends StatefulWidget {
   final AudioPlayer audioPlayer;
@@ -9,12 +11,12 @@ class MiniPlayer extends StatefulWidget {
   final VoidCallback onExpand;
 
   const MiniPlayer({
-    Key? key,
+    super.key,
     required this.audioPlayer,
     required this.musicFilePaths,
     required this.currentIndex,
     required this.onExpand,
-  }) : super(key: key);
+  });
 
   @override
   _MiniPlayerState createState() => _MiniPlayerState();
@@ -62,6 +64,8 @@ class _MiniPlayerState extends State<MiniPlayer> {
 
   @override
   Widget build(BuildContext context) {
+    final playerProvider = Provider.of<PlayerProvider>(context);
+    
     return GestureDetector(
       onTap: widget.onExpand,
       child: Container(
@@ -72,11 +76,11 @@ class _MiniPlayerState extends State<MiniPlayer> {
             BoxShadow(
               color: Colors.black.withOpacity(0.2),
               blurRadius: 8,
-              offset: Offset(0, -2),
+              offset: const Offset(0, -2),
             ),
           ],
         ),
-        child: Column(
+        child: Row(
           children: [
             // Progress bar
             LinearProgressIndicator(
@@ -84,13 +88,13 @@ class _MiniPlayerState extends State<MiniPlayer> {
                 ? _position.inSeconds / _duration.inSeconds 
                 : 0,
               backgroundColor: Colors.grey[800],
-              valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+              valueColor: const AlwaysStoppedAnimation<Color>(Colors.blue),
               minHeight: 2,
             ),
             // Player controls
             Expanded(
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Row(
                   children: [
                     // Album art placeholder
@@ -101,9 +105,9 @@ class _MiniPlayerState extends State<MiniPlayer> {
                         color: Colors.grey[800],
                         borderRadius: BorderRadius.circular(4),
                       ),
-                      child: Icon(Icons.music_note, color: Colors.white54),
+                      child: const Icon(Icons.music_note, color: Colors.white54),
                     ),
-                    SizedBox(width: 12),
+                    const SizedBox(width: 12),
                     // Song info
                     Expanded(
                       child: Column(
@@ -112,7 +116,7 @@ class _MiniPlayerState extends State<MiniPlayer> {
                         children: [
                           Text(
                             _getFileName(),
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Colors.white,
                               fontSize: 16,
                               fontWeight: FontWeight.w500,
@@ -120,8 +124,8 @@ class _MiniPlayerState extends State<MiniPlayer> {
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
-                          SizedBox(height: 2),
-                          Text(
+                          const SizedBox(height: 2),
+                          const Text(
                             'Unknown Artist', // You can add metadata reading later
                             style: TextStyle(
                               color: Colors.white54,
@@ -138,7 +142,7 @@ class _MiniPlayerState extends State<MiniPlayer> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         IconButton(
-                          icon: Icon(Icons.skip_previous, color: Colors.white),
+                          icon: const Icon(Icons.skip_previous, color: Colors.white),
                           onPressed: widget.currentIndex > 0
                               ? () async {
                                   await widget.audioPlayer.setFilePath(
@@ -160,7 +164,7 @@ class _MiniPlayerState extends State<MiniPlayer> {
                           },
                         ),
                         IconButton(
-                          icon: Icon(Icons.skip_next, color: Colors.white),
+                          icon: const Icon(Icons.skip_next, color: Colors.white),
                           onPressed: widget.currentIndex < widget.musicFilePaths.length - 1
                               ? () async {
                                   await widget.audioPlayer.setFilePath(
@@ -187,3 +191,4 @@ class _MiniPlayerState extends State<MiniPlayer> {
     super.dispose();
   }
 }
+//lafinnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn

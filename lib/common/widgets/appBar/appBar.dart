@@ -25,10 +25,10 @@ class AppbarPage extends StatelessWidget implements PreferredSizeWidget{
             color: const Color.fromARGB(255, 255, 153, 0).withOpacity(0.03),
             shape: BoxShape.circle
           ),
-          child: Icon(
+          child: const Icon(
             Icons.arrow_back_ios_new,
             size: 15,
-            color: const Color.fromARGB(255, 255, 200, 0),
+            color: Color.fromARGB(255, 255, 200, 0),
           ),
         ),
       ),

@@ -11,7 +11,7 @@ class SignupPage extends StatelessWidget {
   final TextEditingController confirmPasswordController = TextEditingController();
   final AuthService _authService = AuthService();
 
-  SignupPage({Key? key}) : super(key: key);
+  SignupPage({super.key});
 
   @override
   void dispose() {

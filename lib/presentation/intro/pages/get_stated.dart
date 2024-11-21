@@ -26,7 +26,7 @@ class GetStarted extends StatelessWidget {
               vertical: 40,
               horizontal: 40
             ),
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               image: DecorationImage(
                 fit: BoxFit.fill,
                 image: AssetImage(
@@ -64,7 +64,7 @@ class GetStarted extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 21),
-                Text(
+                const Text(
                   'lorem ipsum, lorem ipsum, lorem ipsum,lorem ipsum,lorem ipsum,lorem ipsum,lorem ipsum,lorem ipsum,lorem ipsum,lorem ipsum,lorem ipsum,lorem ipsum',
                   style: TextStyle(
                     fontWeight: FontWeight.w500,

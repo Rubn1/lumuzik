@@ -6,13 +6,15 @@ import 'package:lumuzik/presentation/auth/pages/MiniPlayer.dart';
 import 'package:lumuzik/presentation/auth/pages/MusicPlayerPage .dart';
 import 'package:lumuzik/presentation/auth/pages/ProfilePage.dart';
 import 'package:lumuzik/presentation/auth/pages/SearchPage.dart';
+import 'package:lumuzik/presentation/auth/pages/player_provider.dart';
 import 'package:lumuzik/presentation/auth/pages/playlistPage.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MusicLibraryPage extends StatefulWidget {
-  const MusicLibraryPage({Key? key}) : super(key: key);
+  const MusicLibraryPage({super.key});
 
   @override
   _MusicLibraryPageState createState() => _MusicLibraryPageState();
@@ -25,8 +27,8 @@ class _MusicLibraryPageState extends State<MusicLibraryPage> {
   final AudioPlayer _audioPlayer = AudioPlayer();
   int _currentTabIndex = 0;
   bool _hasPermission = false;
-  bool _showMiniPlayer = false;
-  int _currentMusicIndex = 0;
+  final bool _showMiniPlayer = false;
+  final int _currentMusicIndex = 0;
 
   @override
   void initState() {
@@ -162,20 +164,26 @@ class _MusicLibraryPageState extends State<MusicLibraryPage> {
   }
 
   void _openMusicPlayer(int index) {
-    setState(() {
-      _currentMusicIndex = index;
-      _showMiniPlayer = true;
-    });
+  final playerProvider = Provider.of<PlayerProvider>(context, listen: false);
+  
+  playerProvider.playFile(
+    musicFilePaths[index], 
+    playlist: musicFilePaths
+  );
+
+
     Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => MusicPlayerPage(
-          musicFilePaths: musicFilePaths,
-          initialIndex: index,
-        ),
+    context,
+    MaterialPageRoute(
+      builder: (context) => MusicPlayerPage(
+        musicFilePaths: musicFilePaths,
+        initialIndex: index,
+        playerProvider: playerProvider,
       ),
-    );
-  }
+    ),
+  );
+}
+
 
   Widget _buildMusicList() {
     if (musicFilePaths.isEmpty) {
@@ -363,8 +371,8 @@ class _MusicLibraryPageState extends State<MusicLibraryPage> {
             )
           : Center(
               child: ElevatedButton(
-                child: const Text('Autoriser l\'accès aux fichiers'),
                 onPressed: _checkAndLoadMusicFiles,
+                child: const Text('Autoriser l\'accès aux fichiers'),
               ),
             ),
     );
@@ -400,7 +408,6 @@ class Playlist {
       musicPaths: List<String>.from(json['musicPaths']),
     );
   }
-
-  
-  
 }
+
+//lafiiiiinnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn

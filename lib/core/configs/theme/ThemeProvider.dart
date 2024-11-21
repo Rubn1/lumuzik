@@ -33,9 +33,9 @@ class ThemeProvider extends ChangeNotifier {
   static final darkTheme = ThemeData(
     scaffoldBackgroundColor: Colors.black,
     primaryColor: Colors.white,
-    colorScheme: ColorScheme.dark(),
-    iconTheme: IconThemeData(color: Colors.white),
-    textTheme: TextTheme(
+    colorScheme: const ColorScheme.dark(),
+    iconTheme: const IconThemeData(color: Colors.white),
+    textTheme: const TextTheme(
       bodyLarge: TextStyle(color: Colors.white),
       bodyMedium: TextStyle(color: Colors.white),
       titleLarge: TextStyle(color: Colors.white),
@@ -46,9 +46,9 @@ class ThemeProvider extends ChangeNotifier {
   static final lightTheme = ThemeData(
     scaffoldBackgroundColor: Colors.white,
     primaryColor: Colors.black,
-    colorScheme: ColorScheme.light(),
-    iconTheme: IconThemeData(color: Colors.black),
-    textTheme: TextTheme(
+    colorScheme: const ColorScheme.light(),
+    iconTheme: const IconThemeData(color: Colors.black),
+    textTheme: const TextTheme(
       bodyLarge: TextStyle(color: Colors.black),
       bodyMedium: TextStyle(color: Colors.black),
       titleLarge: TextStyle(color: Colors.black),

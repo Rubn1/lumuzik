@@ -74,7 +74,7 @@ class ChooseModePage extends StatelessWidget {
                                   width: 70,
                                   
                                   decoration: BoxDecoration(
-                                    color: Color(0xff30393C).withOpacity(0.5),
+                                    color: const Color(0xff30393C).withOpacity(0.5),
                                     shape: BoxShape.circle
                                   ),
                                   child: SvgPicture.asset(
@@ -84,8 +84,8 @@ class ChooseModePage extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            SizedBox(height: 15,),
-                            Text(
+                            const SizedBox(height: 15,),
+                            const Text(
                               'Dark Mode',
                               style: TextStyle(
                                 fontWeight: FontWeight.w500,
@@ -105,7 +105,7 @@ class ChooseModePage extends StatelessWidget {
                                   width: 70,
                                   
                                   decoration: BoxDecoration(
-                                    color: Color(0xff30393C).withOpacity(0.5),
+                                    color: const Color(0xff30393C).withOpacity(0.5),
                                     shape: BoxShape.circle
                                   ),
                                   child: SvgPicture.asset(
@@ -115,7 +115,7 @@ class ChooseModePage extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            Text(
+                            const Text(
                               'light Mode',
                               style: TextStyle(
                                 fontWeight: FontWeight.w500,

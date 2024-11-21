@@ -3,7 +3,7 @@ import 'package:lumuzik/core/configs/theme/app_colors.dart';
 
 class AppTheme {
   // Styles communs
-  static final TextStyle headingStyle = TextStyle(
+  static final TextStyle headingStyle = const TextStyle(
     fontSize: 28,
     fontWeight: FontWeight.bold,
     color: Colors.black,
@@ -16,7 +16,7 @@ class AppTheme {
     fontFamily: 'Satoshi',
   );
 
-  static final TextStyle buttonTextStyle = TextStyle(
+  static final TextStyle buttonTextStyle = const TextStyle(
     fontSize: 17,
     fontWeight: FontWeight.bold,
     color: Colors.white,
@@ -44,7 +44,7 @@ class AppTheme {
     ),
     focusedBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(10),
-      borderSide: BorderSide(color: AppColors.primary),
+      borderSide: const BorderSide(color: AppColors.primary),
     ),
   );
 
