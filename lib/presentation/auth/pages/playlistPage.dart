@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:lumuzik/presentation/auth/pages/PlaylistDetailsPage.dart';
+import 'package:lumuzik/presentation/auth/models/playlist.dart';
 import 'package:lumuzik/presentation/auth/pages/player_provider.dart';
 import 'package:provider/provider.dart';
-import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:lumuzik/presentation/auth/models/playlist.dart';
-import 'package:lumuzik/presentation/auth/pages/MusicPlayerPage .dart';
+import 'dart:convert';
 
 class PlaylistPage extends StatefulWidget {
-  const PlaylistPage({super.key});
+  const PlaylistPage({Key? key}) : super(key: key);
 
   @override
   _PlaylistPageState createState() => _PlaylistPageState();
@@ -94,13 +94,12 @@ class _PlaylistPageState extends State<PlaylistPage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => MusicPlayerPage(
-                    musicFilePaths: playlist.musicPaths,
-                    initialIndex: index,
-                    playerProvider: Provider.of<PlayerProvider>(context, listen: false),
+                  builder: (context) => PlaylistDetailsPage(
+                    playlist: playlist,
+                    playlistIndex: index,
                   ),
                 ),
-              );
+              ).then((_) => _loadPlaylists()); // Reload playlists when returning
             },
           ),
         );
@@ -108,4 +107,3 @@ class _PlaylistPageState extends State<PlaylistPage> {
     );
   }
 }
-//la finnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn

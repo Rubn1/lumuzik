@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lumuzik/presentation/auth/pages/SignInPage.dart';
 
-
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
 
@@ -10,17 +9,18 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  final String _username = 'JohnDoe';
-  final String _email = 'john.doe@example.com';
+  final String _username = 'mercyrubn';
+  final String _email = 'mercyrubn@example.com';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[100],
+      backgroundColor: Colors.black,
       appBar: AppBar(
-        title: const Text('Profile'),
-        backgroundColor: Colors.blue[700],
+        title: const Text('Profile', style: TextStyle(color: Colors.white)),
+        backgroundColor: Colors.black,
         elevation: 0,
+        iconTheme: IconThemeData(color: Colors.white),
       ),
       body: Padding(
         padding: const EdgeInsets.all(24.0),
@@ -32,7 +32,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 children: [
                   CircleAvatar(
                     radius: 60,
-                    backgroundColor: Colors.blue[700],
+                    backgroundColor: Colors.grey[800],
                     child: Text(
                       _username[0].toUpperCase(),
                       style: const TextStyle(
@@ -52,7 +52,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       child: Container(
                         padding: const EdgeInsets.all(8.0),
                         decoration: BoxDecoration(
-                          color: Colors.blue[700],
+                          color: Colors.grey[700],
                           shape: BoxShape.circle,
                         ),
                         child: const Icon(
@@ -72,6 +72,7 @@ class _ProfilePageState extends State<ProfilePage> {
               style: const TextStyle(
                 fontSize: 24.0,
                 fontWeight: FontWeight.bold,
+                color: Colors.white,
               ),
             ),
             const SizedBox(height: 8.0),
@@ -79,20 +80,19 @@ class _ProfilePageState extends State<ProfilePage> {
               _email,
               style: TextStyle(
                 fontSize: 16.0,
-                color: Colors.grey[600],
+                color: Colors.grey[400],
               ),
             ),
             const SizedBox(height: 32.0),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue[700],
+                backgroundColor: Colors.grey[800],
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8.0),
                 ),
               ),
               onPressed: () {
-
                 // Add your profile update functionality here
               },
               child: const Text(
@@ -100,6 +100,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 style: TextStyle(
                   fontSize: 16.0,
                   fontWeight: FontWeight.bold,
+                  color: Colors.white,
                 ),
               ),
             ),
@@ -107,18 +108,18 @@ class _ProfilePageState extends State<ProfilePage> {
             TextButton(
               onPressed: () {
                 Navigator.push(
-                            context, 
-                            MaterialPageRoute(
-                              builder: (BuildContext context)=> SignInPage()
-                            )
-                          );
+                  context, 
+                  MaterialPageRoute(
+                    builder: (BuildContext context)=> SignInPage()
+                  )
+                );
                 // Add your logout functionality here
               },
               child: Text(
                 'Logout',
                 style: TextStyle(
                   fontSize: 16.0,
-                  color: Colors.blue[700],
+                  color: Colors.grey[400],
                 ),
               ),
             ),
